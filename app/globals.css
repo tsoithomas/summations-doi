@@ -1,3 +1,4 @@
+/*@tailwind base;*/
 @tailwind components;
 @tailwind utilities;
 
@@ -23,8 +24,4 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
-
-.input-doi {
-  width: 400px;
 }

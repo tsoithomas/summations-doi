@@ -56,7 +56,8 @@ export default function DoiInput() {
       onBlur={() => setFocused(false)}
       mt="md"
       autoComplete="nope"
-      className="input-doi"
+      className="w-full"
+      id="doi"
     />
     
   );
