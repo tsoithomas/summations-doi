@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 import { TextInput, createStyles, rem } from '@mantine/core';
 
 const useStyles = createStyles((theme, { floating }: { floating: boolean }) => ({
@@ -39,10 +39,16 @@ const useStyles = createStyles((theme, { floating }: { floating: boolean }) => (
   },
 }));
 
-export default function DoiInput() {
+export const DoiInput = forwardRef((props, _ref) => {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
   const { classes } = useStyles({ floating: value.trim().length !== 0 || focused });
+
+  useImperativeHandle(_ref, () => ({
+    getDoiValue: () => {
+      return value;
+    }
+  }));
 
   return (
     <TextInput
@@ -61,4 +67,4 @@ export default function DoiInput() {
     />
     
   );
-}
+});
