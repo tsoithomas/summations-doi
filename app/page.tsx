@@ -4,7 +4,8 @@ import DoiInput from './components/DoiInput'
 import { useRef } from 'react';
 
 export default function Home() {
-  const doiRef = useRef();
+  const initialRef: any = null;
+  const doiRef = useRef(initialRef);
 
   const retrieveData = (e: any) => {
     e.preventDefault();
