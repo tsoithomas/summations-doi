@@ -1,6 +1,6 @@
 "use client";
 import Nav from './components/Nav'
-import { DoiInput } from './components/DoiInput'
+import DoiInput from './components/DoiInput'
 import { useRef } from 'react';
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
 
   const retrieveData = (e: any) => {
     e.preventDefault();
-    const doiValue = doiRef.current.getDoiValue();
+    const doiValue = doiRef.current!.getDoiValue();
     console.log('You clicked submit. ' + doiValue);
   }
 

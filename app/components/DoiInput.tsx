@@ -39,7 +39,8 @@ const useStyles = createStyles((theme, { floating }: { floating: boolean }) => (
   },
 }));
 
-export const DoiInput = forwardRef((props, _ref) => {
+// eslint-disable-next-line react/display-name
+const DoiInput = forwardRef((props, _ref) => {
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
   const { classes } = useStyles({ floating: value.trim().length !== 0 || focused });
@@ -68,3 +69,5 @@ export const DoiInput = forwardRef((props, _ref) => {
     
   );
 });
+
+export default DoiInput;
