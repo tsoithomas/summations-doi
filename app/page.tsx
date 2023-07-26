@@ -1,5 +1,5 @@
 "use client";
-import Nav from './components/Nav';
+import { HeaderNav } from './components/HeaderNav';
 import DoiInput from './components/DoiInput';
 import { useRef, useState } from 'react';
 
@@ -118,7 +118,7 @@ export default function Home() {
 
   return (
     <div>
-      <Nav />
+      <HeaderNav />
       <main className="flex min-h-screen flex-col items-center justify-between px-4 md:px-24 z-0">
         <div className="flex w-full max-w-screen-md grow-0 place-items-center mt-10 md:mt-20 mb-10">
           <form className="w-full">
