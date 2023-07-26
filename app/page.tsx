@@ -1,15 +1,21 @@
 "use client";
-import Nav from './components/Nav'
-import DoiInput from './components/DoiInput'
+import Nav from './components/Nav';
+import DoiInput from './components/DoiInput';
 import { useRef, useState } from 'react';
 
 export default function Home() {
   const initialRef: any = null;
   const doiRef = useRef(initialRef);
-  const [abstract, setAbstract] = useState({title: "", text: ""});
+  const [abstract, setAbstract] = useState({title: "", authors: "", text: ""});
   const doiUrl = "https://doi.org/";
   const apiUrl = "https://api.openalex.org/works/" + doiUrl;
-  const doiSamples = ["10.7717/peerj.4375", "10.3352/jeehp.2013.10.3"];
+  const doiSamples = ["10.7717/peerj.4375", 
+                      "10.3352/jeehp.2013.10.3",
+                      "10.1017/S1366728910000453",
+                      "10.1103/PhysRev.55.374",
+                      "10.1103/PhysRev.47.777",
+                      "10.1109/MSPEC.2022.9754503"
+                      ];
 
   // Retrieve button onClick handler
   const retrieveData = (e: any) => {
@@ -23,61 +29,71 @@ export default function Home() {
       doiRef.current!.setDoiValue(doiValue);
     }
 
-    // Fetch DOI data from OpenAlex
-    fetch(apiUrl + doiValue)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        else {
-          return Promise.reject('404');
-        }
-      })
-      .then((actualData) => {
-        // Set up variables to recover abstract from abstract_inverted_index
-        let glossary = actualData.abstract_inverted_index
-        let words: Array<string> = []
+    if (doiValue != "") {
 
-        // Reverse the inverted index into an array
-        for (let lexeme in glossary) {
-          let indices = glossary[lexeme]
-          for (let index of indices) {
-            words[Number(index)] = lexeme;
+      // Fetch DOI data from OpenAlex
+      fetch(apiUrl + doiValue)
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
           }
-        }
+          else {
+            return Promise.reject('404');
+          }
+        })
+        .then((actualData) => {
+          // Set up variables to recover abstract from abstract_inverted_index
+          let glossary = actualData.abstract_inverted_index;
+          let words: Array<string> = [];
 
-        // Prepare state object
-        let fetchedAbstract = {
-          title: actualData.title,
-          text: words.join(" ")
-        }
+          // Reverse the inverted index into an array
+          for (let lexeme in glossary) {
+            let indices = glossary[lexeme]
+            for (let index of indices) {
+              words[Number(index)] = lexeme;
+            }
+          }
 
-        // Update state
-        setAbstract(abstract => ({
-          ...abstract,
-          ...fetchedAbstract
-        }));
+          let authorship: Array<string> = [];
+          for (let author of actualData.authorships) {
+            authorship.push(author.author.display_name);
+          }
 
-        // Fade in abstract
-        const article = document.getElementById('abstract');
-        if (article != null) {
-          article.classList.remove('opacity-0');
-          article.classList.add('opacity-100');
-        }
 
-      })
-      .catch((err) => {
-        // Error message
-        console.log("error: " + err);
-      });
+          // Prepare state object
+          let fetchedData = {
+            title: actualData.title,
+            authors: authorship.join(", "),
+            text: words.join(" ")
+          }
 
-    // Fade out abstract
-    const article = document.getElementById('abstract');
-    if (article != null) {
-      article.classList.remove('opacity-100');
-      article.classList.add('opacity-0');
+          // Update state
+          setAbstract(abstract => ({
+            ...abstract,
+            ...fetchedData
+          }));
+
+          // Fade in abstract
+          const article = document.getElementById('abstract');
+          if (article != null) {
+            article.classList.remove('opacity-0');
+            article.classList.add('opacity-100');
+          }
+
+        })
+        .catch((err) => {
+          // Error message
+          console.log("error: " + err);
+        });
+      }
+
+      // Fade out abstract
+      const article = document.getElementById('abstract');
+      if (article != null) {
+        article.classList.remove('opacity-100');
+        article.classList.add('opacity-0');
+      }
     }
-  }
 
   const setRandomDOI = () => {
     // Pick a random DOI and set it to DoiInput
@@ -112,7 +128,8 @@ export default function Home() {
         <div className="flex w-full max-w-screen-md grow place-items-start mb-6">
           <article id="abstract" className="opacity-0 bg-blue-200/75 bg-blend-screen w-full rounded py-5 px-6 md:px-10">
             <h2 className="font-bold text-xl mb-4 text-left">{abstract.title}</h2>
-            <p className="text-justify text-sm">{abstract.text}</p>
+            <p className="text-left text-sm mb-4">{abstract.authors}</p>
+            <p className="text-justify text-md font-serif">{abstract.text}</p>
           </article>
         </div>
       </main>
