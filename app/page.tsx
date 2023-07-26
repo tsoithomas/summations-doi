@@ -9,6 +9,7 @@ export default function Home() {
   const [abstract, setAbstract] = useState({title: "", text: ""});
   const doiUrl = "https://doi.org/";
   const apiUrl = "https://api.openalex.org/works/" + doiUrl;
+  const doiSamples = ["10.7717/peerj.4375", "10.3352/jeehp.2013.10.3"];
 
   // Retrieve button onClick handler
   const retrieveData = (e: any) => {
@@ -76,10 +77,13 @@ export default function Home() {
       article.classList.remove('opacity-100');
       article.classList.add('opacity-0');
     }
-
-
   }
 
+  const setRandomDOI = () => {
+    // Pick a random DOI and set it to DoiInput
+    let chosenDOI = doiSamples[Math.floor(Math.random() * doiSamples.length)]
+    doiRef.current!.setDoiValue(chosenDOI);
+  }
 
 
 
@@ -89,13 +93,20 @@ export default function Home() {
       <main className="flex min-h-screen flex-col items-center justify-between px-4 md:px-24 z-0">
         <div className="flex w-full max-w-screen-md grow-0 place-items-center mt-10 md:mt-20 mb-10">
           <form className="w-full">
-            <div className="my-2">
-              <DoiInput ref={doiRef} />
+            <div className="flex flex-col md:flex-row my-2">
+              <div className="flex grow">
+                <DoiInput ref={doiRef} />
+              </div>
+              <div className="flex grow-0 ms-0 md:ms-3 pt-4">
+                <button onClick={retrieveData} className="bg-blue-500 hover:bg-blue-700 border text-white font-bold py-0 px-4 h-9 rounded-lg inline-flex items-center cursor-pointer">
+                  <span>Retrieve</span>
+                  <svg className="fill-current w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+                </button>
+              </div>
             </div>
-            <button onClick={retrieveData} className="bg-blue-500 hover:bg-blue-700 border text-white font-bold py-2 px-4 rounded inline-flex items-center cursor-pointer">
-              <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-              <span>Retrieve</span>
-            </button>
+            <span id="random" onClick={setRandomDOI} className="ms-2 text-sm hover:underline text-blue-900 hover:text-blue-700 cursor-pointer">
+              use random DOI
+            </span>
           </form>
         </div>
         <div className="flex w-full max-w-screen-md grow place-items-start mb-6">
