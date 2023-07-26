@@ -29,7 +29,7 @@ export default function Home() {
           return response.json();
         }
         else {
-          Promise.reject('error');
+          return Promise.reject('404');
         }
       })
       .then((actualData) => {
@@ -67,7 +67,7 @@ export default function Home() {
       })
       .catch((err) => {
         // Error message
-        console.log(err.message);
+        console.log("error: " + err);
       });
 
     // Fade out abstract
