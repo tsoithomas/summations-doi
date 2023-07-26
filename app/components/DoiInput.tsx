@@ -45,6 +45,7 @@ const DoiInput = forwardRef((props, _ref) => {
   const [value, setValue] = useState('');
   const { classes } = useStyles({ floating: value.trim().length !== 0 || focused });
 
+  // Return DoiValue to parent
   useImperativeHandle(_ref, () => ({
     getDoiValue: () => {
       return value;
@@ -54,7 +55,7 @@ const DoiInput = forwardRef((props, _ref) => {
   return (
     <TextInput
       label="DOI"
-      placeholder="Please input the DOI of the paper"
+      placeholder="e.g. 10.7717/peerj.4375"
       required
       classNames={classes}
       value={value}

@@ -30,3 +30,11 @@ body {
   height: 40px;
   width: auto;
 }
+
+#abstract.opacity-100 {
+  transition: all 0.5s ease;
+}
+#abstract.opacity-0 {
+  transition: all 0.5s ease;
+}
+
