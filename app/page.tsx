@@ -6,10 +6,30 @@ import { useRef } from 'react';
 export default function Home() {
   const initialRef: any = null;
   const doiRef = useRef(initialRef);
+  const url = "https://api.openalex.org/works/https://doi.org/10.7717/peerj.4375";
 
   const retrieveData = (e: any) => {
     e.preventDefault();
     const doiValue = doiRef.current!.getDoiValue();
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((actualData) => {
+        let glossary = actualData.abstract_inverted_index
+        let words: Array<string> = []
+
+        for (let lexeme in glossary) {
+          let indices = glossary[lexeme]
+          for (let index of indices) {
+            words[Number(index)] = lexeme;
+          }
+        }
+        console.log(words.join(" "));
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
     console.log('You clicked submit. ' + doiValue);
   }
 
