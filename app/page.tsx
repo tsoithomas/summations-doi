@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 export default function Home() {
   const initialRef: any = null;
   const doiRef = useRef(initialRef);
+  const [errorMessage, setErrorMessage] = useState("Error");
   const [abstract, setAbstract] = useState({title: "", authors: "", text: ""});
   const doiUrl = "https://doi.org/";
   const apiUrl = "https://api.openalex.org/works/" + doiUrl;
@@ -27,6 +28,18 @@ export default function Home() {
     if (doiValue.startsWith(doiUrl)) {
       doiValue = doiValue.substring(doiUrl.length);
       doiRef.current!.setDoiValue(doiValue);
+    }
+
+    // Fade out abstract and error
+    const article = document.getElementById('abstract');
+    if (article != null) {
+      article.classList.remove('opacity-100');
+      article.classList.add('opacity-0');
+    }
+    const errorDiv = document.getElementById('error');
+    if (errorDiv != null) {
+      errorDiv.classList.remove('opacity-100');
+      errorDiv.classList.add('opacity-0');
     }
 
     if (doiValue != "") {
@@ -59,7 +72,6 @@ export default function Home() {
             authorship.push(author.author.display_name);
           }
 
-
           // Prepare state object
           let fetchedData = {
             title: actualData.title,
@@ -82,25 +94,26 @@ export default function Home() {
 
         })
         .catch((err) => {
-          // Error message
-          console.log("error: " + err);
+          // Fade in error message
+          const errorDiv = document.getElementById('error');
+          if (errorDiv != null) {
+            setErrorMessage("The DOI is incorrect.")
+            errorDiv.classList.remove('opacity-0');
+            errorDiv.classList.add('opacity-100');
+          }
         });
-      }
-
-      // Fade out abstract
-      const article = document.getElementById('abstract');
-      if (article != null) {
-        article.classList.remove('opacity-100');
-        article.classList.add('opacity-0');
       }
     }
 
   const setRandomDOI = () => {
     // Pick a random DOI and set it to DoiInput
-    let chosenDOI = doiSamples[Math.floor(Math.random() * doiSamples.length)]
+    let doiValue = doiRef.current!.getDoiValue();
+    let chosenDOI = "";
+    do {
+      chosenDOI = doiSamples[Math.floor(Math.random() * doiSamples.length)]
+    } while (doiValue == chosenDOI && doiSamples.length > 1);
     doiRef.current!.setDoiValue(chosenDOI);
   }
-
 
 
   return (
@@ -120,17 +133,24 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            <span id="random" onClick={setRandomDOI} className="ms-2 text-sm hover:underline text-blue-900 hover:text-blue-700 cursor-pointer">
+            <span id="random" onClick={setRandomDOI} className="ms-2 text-sm hover:underline text-blue-900 hover:text-blue-700 cursor-pointer select-none">
               use random DOI
             </span>
           </form>
         </div>
-        <div className="flex w-full max-w-screen-md grow place-items-start mb-6">
-          <article id="abstract" className="opacity-0 bg-blue-200/75 bg-blend-screen w-full rounded py-5 px-6 md:px-10">
+        <div className="relative w-full max-w-screen-md grow place-items-start mb-6">
+
+          <article id="abstract" className="relative opacity-0 bg-blue-200/75 bg-blend-screen w-full rounded py-5 px-6 md:px-10 z-10">
             <h2 className="font-bold text-xl mb-4 text-left">{abstract.title}</h2>
             <p className="text-left text-sm mb-4">{abstract.authors}</p>
             <p className="text-justify text-md font-serif">{abstract.text}</p>
           </article>
+
+          <div id="error" className="absolute opacity-0 top-0 left-0 bg-red-100 w-full border border-red-400 text-red-700 text-sm px-4 py-3 rounded z-0" role="alert">
+            {errorMessage}
+          </div>
+
+
         </div>
       </main>
     </div>
