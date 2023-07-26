@@ -49,7 +49,10 @@ const DoiInput = forwardRef((props, _ref) => {
   useImperativeHandle(_ref, () => ({
     getDoiValue: () => {
       return value;
-    }
+    },
+    setDoiValue: (val: string) => {
+      setValue(val);
+    },
   }));
 
   return (

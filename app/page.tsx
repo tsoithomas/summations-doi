@@ -7,26 +7,31 @@ export default function Home() {
   const initialRef: any = null;
   const doiRef = useRef(initialRef);
   const [abstract, setAbstract] = useState({title: "", text: ""});
-  const url = "https://api.openalex.org/works/https://doi.org/";
+  const doiUrl = "https://doi.org/";
+  const apiUrl = "https://api.openalex.org/works/" + doiUrl;
 
   // Retrieve button onClick handler
   const retrieveData = (e: any) => {
     // Prevent the browser from reloading
     e.preventDefault();
 
-    // Fade out abstract
-    const article = document.getElementById('abstract');
-    if (article != null) {
-      article.classList.remove('opacity-100');
-      article.classList.add('opacity-0');
+    // Remove DOI domain if present
+    let doiValue = doiRef.current!.getDoiValue();
+    if (doiValue.startsWith(doiUrl)) {
+      doiValue = doiValue.substring(doiUrl.length);
+      doiRef.current!.setDoiValue(doiValue);
     }
 
-    // Get doiValue from DoiInput
-    const doiValue = doiRef.current!.getDoiValue();
-
     // Fetch DOI data from OpenAlex
-    fetch(url + doiValue)
-      .then((response) => response.json())
+    fetch(apiUrl + doiValue)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        else {
+          Promise.reject('error');
+        }
+      })
       .then((actualData) => {
         // Set up variables to recover abstract from abstract_inverted_index
         let glossary = actualData.abstract_inverted_index
@@ -64,7 +69,19 @@ export default function Home() {
         // Error message
         console.log(err.message);
       });
+
+    // Fade out abstract
+    const article = document.getElementById('abstract');
+    if (article != null) {
+      article.classList.remove('opacity-100');
+      article.classList.add('opacity-0');
+    }
+
+
   }
+
+
+
 
   return (
     <div>
