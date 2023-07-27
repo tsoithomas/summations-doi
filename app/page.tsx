@@ -10,7 +10,8 @@ export default function Home() {
   const [abstract, setAbstract] = useState({title: "", authors: "", text: ""});
   const doiUrl = "https://doi.org/";
   const apiUrl = "https://api.openalex.org/works/" + doiUrl;
-  const doiSamples = ["10.7717/peerj.4375", 
+  const doiSamples = [
+                      "10.7717/peerj.4375", 
                       "10.3352/jeehp.2013.10.3",
                       "10.1017/S1366728910000453",
                       "10.1103/PhysRev.55.374",
@@ -43,7 +44,6 @@ export default function Home() {
     }
 
     if (doiValue != "") {
-
       // Fetch DOI data from OpenAlex
       fetch(apiUrl + doiValue)
         .then((response) => {
@@ -67,6 +67,7 @@ export default function Home() {
             }
           }
 
+          // Store all authors in an array
           let authorship: Array<string> = [];
           for (let author of actualData.authorships) {
             authorship.push(author.author.display_name);
@@ -108,25 +109,24 @@ export default function Home() {
   const setRandomDOI = () => {
     // Pick a random DOI and set it to DoiInput
     let doiValue = doiRef.current!.getDoiValue();
-    let chosenDOI = "";
-    do {
+    let chosenDOI = doiValue;
+    while (doiValue == chosenDOI && doiSamples.length > 1) {
       chosenDOI = doiSamples[Math.floor(Math.random() * doiSamples.length)]
-    } while (doiValue == chosenDOI && doiSamples.length > 1);
+    }
     doiRef.current!.setDoiValue(chosenDOI);
   }
-
 
   return (
     <div>
       <HeaderNav />
-      <main className="flex min-h-screen flex-col items-center justify-between px-4 md:px-24 z-0">
-        <div className="flex w-full max-w-screen-md grow-0 place-items-center mt-10 md:mt-20 mb-10">
+      <main className="flex w-full min-h-screen flex-col items-center justify-between">
+        <div className="flex w-full max-w-screen-md grow-0 place-items-center mt-10 mb-10 px-4 z-10">
           <form className="w-full">
-            <div className="flex flex-col md:flex-row my-2">
+            <div className="flex flex-col sm:flex-row my-2">
               <div className="flex grow">
                 <DoiInput ref={doiRef} />
               </div>
-              <div className="flex grow-0 ms-0 md:ms-3 pt-4">
+              <div className="flex grow-0 ms-0 sm:ms-3 pt-4">
                 <button onClick={retrieveData} className="bg-blue-500 hover:bg-blue-700 border text-white font-bold py-0 px-4 h-9 rounded-lg inline-flex items-center cursor-pointer">
                   <span>Retrieve</span>
                   <svg className="fill-current w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
@@ -138,19 +138,15 @@ export default function Home() {
             </span>
           </form>
         </div>
-        <div className="relative w-full max-w-screen-md grow place-items-start mb-6">
-
+        <div className="relative w-full max-w-screen-md grow place-items-start mb-6 px-4 z-10">
           <article id="abstract" className="relative opacity-0 bg-blue-200/75 bg-blend-screen w-full rounded py-5 px-6 md:px-10 z-10">
             <h2 className="font-bold text-xl mb-4 text-left">{abstract.title}</h2>
             <p className="text-left text-sm mb-4">{abstract.authors}</p>
             <p className="text-justify text-md font-serif">{abstract.text}</p>
           </article>
-
           <div id="error" className="absolute opacity-0 top-0 left-0 bg-red-100 w-full border border-red-400 text-red-700 text-sm px-4 py-3 rounded z-0" role="alert">
             {errorMessage}
           </div>
-
-
         </div>
       </main>
     </div>

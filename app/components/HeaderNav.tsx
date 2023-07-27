@@ -14,13 +14,12 @@ const useStyles = createStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginInline: "0"
     },
 }));
 
 export function HeaderNav() {
-  const [opened, { toggle }] = useDisclosure(false);
   const { classes, cx } = useStyles();
-  const [active, setActive] = useState(0);
 
   return (
     <Header height={HEADER_HEIGHT} className={classes.header}>
