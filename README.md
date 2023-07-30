@@ -1,5 +1,5 @@
 # HKHikerBot
-This is a working demo used for demostrating how to get a research paper abstract from its DOI (Digital Object Identifier). The app is implemented with React, Next.js, Mantine and Tailwind.
+This is a working demo demostrating how to get a research paper abstract from its DOI (Digital Object Identifier). The app is implemented with React, Next.js, Mantine and Tailwind.
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -7,7 +7,7 @@ This is a working demo used for demostrating how to get a research paper abstrac
 3. [License](#license)
 
 ## Introduction
-This is a working demo used for demostrating how to get a research paper abstract from its DOI (Digital Object Identifier).
+This is a working demo demostrating how to get a research paper abstract from its DOI (Digital Object Identifier).
 
 ![Screen shot](https://github.com/tsoithomas/summations-doi/blob/master/screenshot.png?raw=true)
 
