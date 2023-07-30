@@ -1,4 +1,4 @@
-# HKHikerBot
+# Summations-DOI
 This is a working demo demostrating how to get a research paper abstract from its DOI (Digital Object Identifier). The app is implemented with React, Next.js, Mantine and Tailwind.
 
 ## Table of Contents
