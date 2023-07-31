@@ -9,7 +9,7 @@ The app is implemented with TypeScript, React, Next.js, Mantine and Tailwind.
 3. [License](#license)
 
 ## Introduction
-This is a working demo demostrating how to get a research paper abstract from its DOI (Digital Object Identifier).
+This is a working demo showing how to get a research paper abstract from its DOI (Digital Object Identifier).
 
 ![Screen shot](https://github.com/tsoithomas/summations-doi/blob/master/screenshot.png?raw=true)
 
