@@ -3,15 +3,35 @@ This is a working demo demostrating how to get a research paper abstract from it
 
 The app is implemented with TypeScript, React, Next.js, Mantine and Tailwind.
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Contributing](#contributing)
+2. [Getting Started](#getting-started)
+3. [Contributing](#contributing)
 3. [License](#license)
 
 ## Introduction
 This is a working demo showing how to get a research paper abstract from its DOI (Digital Object Identifier).
 
 ![Screen shot](https://github.com/tsoithomas/summations-doi/blob/master/screenshot.png?raw=true)
+
+## Getting Started
+These instructions will get you a copy of the project up and running on your local
+machine for development and testing purposes.
+
+### Installing
+Install with the following command:
+```
+npm install
+```
+Run the app:
+```
+npm run dev
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to
@@ -20,7 +40,7 @@ discuss what you would like to change.
 ## License
 MIT License
 
-Copyright (c) 2022 Thomas Tsoi
+Copyright (c) 2023 Thomas Tsoi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
